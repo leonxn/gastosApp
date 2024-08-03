@@ -16,10 +16,12 @@ class EditGastoModal extends StatefulWidget {
 }
 
 class _EditGastoModalState extends State<EditGastoModal> {
-  late TextEditingController _productController;
-  late TextEditingController _priceController;
-  late TextEditingController _dateController;
-  late String typeSelected;
+  TextEditingController _productController = TextEditingController();
+  TextEditingController _priceController = TextEditingController();
+  // TextEditingController _typeController = TextEditingController();
+  TextEditingController _dateController = TextEditingController();
+  String typeSelected = 'Alimentos';
+  List<GastoModel> gastos = [];
 
   @override
   void initState() {
@@ -29,6 +31,11 @@ class _EditGastoModalState extends State<EditGastoModal> {
         TextEditingController(text: widget.gasto.price.toString());
     _dateController = TextEditingController(text: widget.gasto.datetime);
     typeSelected = widget.gasto.type;
+  }
+
+  Future<void> getDataFromDB() async {
+    gastos = await DBAdmin().obtenerGastos();
+    setState(() {});
   }
 
   @override
@@ -120,6 +127,7 @@ class _EditGastoModalState extends State<EditGastoModal> {
                   content: Text("Gasto actualizado correctamente"),
                 ),
               );
+              getDataFromDB();
               Navigator.pop(context);
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
