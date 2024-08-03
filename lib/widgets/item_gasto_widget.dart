@@ -3,20 +3,16 @@ import 'package:gastosappg8/models/gasto_model.dart';
 import 'package:gastosappg8/widgets/edit_modal.dart';
 
 class ItemGastoWidget extends StatelessWidget {
-  final GastoModel gasto;
+  GastoModel gasto;
 
   ItemGastoWidget({required this.gasto});
 
   @override
   Widget build(BuildContext context) {
-    Map<String, String> imageMap = {
-      "Alimentos": "assets/images/alimentos.webp",
-      "Bancos y Seguro": "assets/images/bancos.webp",
-      "Entretenimiento": "assets/images/entretenimiento.webp",
-      "Otros": "assets/images/otros.webp",
-      "Servicios": "assets/images/servicios.webp",
-      "Entretenimiento": "assets/images/entretenimiento.webp",
-    };
+    String? imageAsset = types.firstWhere(
+      (type) => type['name'] == gasto.type,
+      orElse: () => {"image": "assets/images/otros.webp"},
+    )['image'];
 
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8),
@@ -26,7 +22,7 @@ class ItemGastoWidget extends StatelessWidget {
       ),
       child: ListTile(
         leading: Image.asset(
-          imageMap[gasto.type] ?? "assets/images/otros.webp",
+          imageAsset!,
           height: 40,
           width: 40,
         ),
@@ -73,3 +69,31 @@ class ItemGastoWidget extends StatelessWidget {
     );
   }
 }
+
+List<Map<String, dynamic>> types = [
+  {
+    "id": 1,
+    "name": "Alimentos",
+    "image": "assets/images/alimentos.webp",
+  },
+  {
+    "id": 2,
+    "name": "Banco y Seguro",
+    "image": "assets/images/bancos.webp",
+  },
+  {
+    "id": 3,
+    "name": "Entretenimiento",
+    "image": "assets/images/entretenimiento.webp",
+  },
+  {
+    "id": 4,
+    "name": "Servicios",
+    "image": "assets/images/servicios.webp",
+  },
+  {
+    "id": 5,
+    "name": "Otros",
+    "image": "assets/images/otros.webp",
+  },
+];
